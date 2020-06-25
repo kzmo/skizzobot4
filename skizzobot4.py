@@ -377,18 +377,18 @@ class Skizzobot:
             # If we don't have this triplet then store it as a new entry
             # with a count of one.
             if old is None:
-                self.database.triplets.insert({"channel": channel,
-                                               "left": left,
-                                               "middle": middle,
-                                               "right": right,
-                                               "count": 1})
+                self.database.triplets.insert_one({"channel": channel,
+                                                   "left": left,
+                                                   "middle": middle,
+                                                   "right": right,
+                                                   "count": 1})
             # If we already have this entry then add to the count.
             else:
                 count = old["count"]
                 count += 1
-                self.database.triplets.update(old,
-                                              {"$set": {"count": count}},
-                                              upsert=True)
+                self.database.triplets.update_one(old,
+                                                  {"$set": {"count": count}},
+                                                  upsert=True)
 
     def get_triplets(self, channel, starter):
         """Get the triplets based on starter.
