@@ -19,6 +19,7 @@ import configparser
 import argparse
 import random
 import time
+import json
 
 import pymongo
 
@@ -32,19 +33,19 @@ irc.client.ServerConnection.buffer_class = buffer.LenientDecodingLineBuffer
 
 
 def random_msg(msg):
-    """Returns a random substring from a '|' separated string.
+    """Return a random substring from a list of strings
 
     Used to get a random string from the configuration file multiple string
     configuration values.
 
     Args:
-        msg(str): The '|' separated configuration string.
+        msg(list): A list of strings
 
     Returns:
         str: Random substring.
     """
 
-    return random.choice(msg.split('|'))
+    return random.choice(msg)
 
 
 def nick_from_source(source):
@@ -564,12 +565,12 @@ class Skizzobot:
 
         self.cfg['dbname'] = config['Database']['name']
 
-        self.cfg['hello_channel'] = config['Messages']['hello_channel']
-        self.cfg['hello_user'] = config['Messages']['hello_user']
-        self.cfg['revenge'] = config['Messages']['revenge']
-        self.cfg['thanks'] = config['Messages']['thanks']
-        self.cfg['kick_message'] = config['Messages']['kick']
-        self.cfg['disappointment'] = config['Messages']['disappointment']
+        self.cfg['hello_channel'] = json.loads(config['Messages']['hello_channel'])
+        self.cfg['hello_user'] = json.loads(config['Messages']['hello_user'])
+        self.cfg['revenge'] = json.loads(config['Messages']['revenge'])
+        self.cfg['thanks'] = json.loads(config['Messages']['thanks'])
+        self.cfg['kick_message'] = json.loads(config['Messages']['kick'])
+        self.cfg['disappointment'] = json.loads(config['Messages']['disappointment'])
 
     def setup_db(self):
         """Setup the MongoDB connection.
