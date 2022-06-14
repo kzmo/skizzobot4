@@ -334,7 +334,7 @@ class Skizzobot:
 
         # Empty lines don't need to be handled.
         if not splitted:
-            return
+            return ""
 
         # Construct the triplets data.
         triplets = []
